@@ -1,34 +1,32 @@
-import 'package:audio_service/audio_service.dart';
+
 import 'package:flutter/material.dart';
 import 'package:test_audio_service/audio_file.dart';
-import 'package:test_audio_service/play_audio_screen.dart';
+import 'package:test_audio_service/play_screen.dart';
 
 class TestScreen extends StatelessWidget {
-
+  final List<AudioFile> audioFiles;
+  TestScreen(this.audioFiles);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        children: <Widget>[
-          RaisedButton(
-            onPressed: () {
-              var route = MaterialPageRoute(builder: (context) => PlayAudioScreen(audioFile: audioFiles[0],audioFiles: audioFiles,title: "test1",ordinal: 1));
-              Navigator.push(context, route);
-            },
-            child: Text('Press to come play screen'),
-
-          ),
-          RaisedButton(
-            onPressed: () {
-              AudioService.stop();
-            },
-            child: Text('Stop service'),
-          )
-        ],
-      )   
+      body: ListView.builder(
+        itemCount: audioFiles.length,
+        itemBuilder: (context,index){
+          return btn(audioFiles[index], context,audioFiles);
+        },
+      ) 
     );
   }
+}
+Widget btn(AudioFile audioFile,BuildContext context,List<AudioFile> audioList){
+  return RaisedButton(
+    onPressed: () {
+      // var route = MaterialPageRoute(builder: (context) => PlayScreen(audioFile: audioFile,audioList: audioList,));
+      // Navigator.push(context, route);
+    },
+    child: Text('${audioFile.audioBookTitle} - ${audioFile.id}'),
+  );
 }
 
 
